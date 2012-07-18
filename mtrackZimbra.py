@@ -17,7 +17,7 @@
 #  message ID to make it  more legible, and ignores the other logs (like zmmailboxdmgr, 
 #  slapd, etc).
 #
-##################################################################################
+###################################################################################
 
 import sys
 import re
