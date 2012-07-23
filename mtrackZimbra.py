@@ -1,21 +1,21 @@
 #!/usr/bin/python
 #
 # -----------------------------------------------------------------------------
-#  Zimbra Log Sorter v2
-#   
-#  written by Shashank Shekhar Tewari
+#	Zimbra Log Sorter v2
+#	 
+#	written by Shashank Shekhar Tewari
 #
-#  Jul 15, 2012
+#	Jul 15, 2012
 #
-#  Email: echo "`echo CbegvnakIlnf | tr '[A-Za-z]' '[N-ZA-Mn-za-m]'`@gmail.com"
+#	Email: echo "`echo CbegvnakIlnf | tr '[A-Za-z]' '[N-ZA-Mn-za-m]'`@gmail.com"
 # ------------------------------------------------------------------------------
 #
-#  Being a qmail admin as well, I was sorely missing John Simpson's 'mtrack' 
-#  script in Zimbra, so I decided to write one myself.
+#	Being a qmail admin as well, I was sorely missing John Simpson's 'mtrack' 
+#	script in Zimbra, so I decided to write one myself.
 #
-#  This groups together logs for all mails sent, separating them via the postfix 
-#  message ID to make it  more legible, and ignores the other logs (like zmmailboxdmgr, 
-#  slapd, etc).
+#	This groups together logs for all mails sent, separating them via the postfix 
+#	message ID to make it	more legible, and ignores the other logs (like zmmailboxdmgr, 
+#	slapd, etc).
 #
 ###################################################################################
 
@@ -102,7 +102,7 @@ def log_sorter(log_file,first_regex,second_regex):
 	
 	orphan_queue_dict=queue_id_dict.copy()
 
-	if first_regex or second_regex:
+	if mid_list:
 		for ID in mid_list:
 			for qID in message_id_dict[ID].split(','):
 				regex_string += queue_id_dict[qID]
@@ -111,8 +111,10 @@ def log_sorter(log_file,first_regex,second_regex):
 					del orphan_queue_dict[qID]
 			if second_regex:
 				regex_search=re.search(first_regex, regex_string, re.I) and re.search(second_regex, regex_string, re.I)
-			else:
+			elif first_regex:
 				regex_search=re.search(first_regex, regex_string, re.I)
+			else:
+				regex_search=regex_string
 			if regex_search:
 				print 'Message-ID:',ID
 				print regex_string,
@@ -123,34 +125,20 @@ def log_sorter(log_file,first_regex,second_regex):
 			regex_string += "\n"
 			if second_regex:
 				regex_search=re.search(first_regex, regex_string, re.I) and re.search(second_regex, regex_string, re.I)
-			else:
+			elif first_regex:
 				regex_search=re.search(first_regex, regex_string, re.I)
+			else:
+				regex_search=regex_string
 			if regex_search:
 				print 'Orphaned messages:'
 				print regex_string,
 				print '--\n'
 			regex_string = ""
 		print 'End of log file'
-		sys.exit()
-	
-	if mid_list:
-		for ID in mid_list:
-			print 'Message-ID:',ID
-			for qID in message_id_dict[ID].split(','):
-				print queue_id_dict[qID]
-				if qID in orphan_queue_dict:
-					del orphan_queue_dict[qID]
-			print '--\n'
 	else:
 		print "No results found. Is the given file a Zimbra log file?"
-		sys.exit()
-	if orphan_queue_dict:
-		print 'Orphaned messages:'
-		for qID in orphan_queue_dict:
-			print orphan_queue_dict[qID]
-			print '--\n'
-	fileinput.close()
-	print 'End of log file'
+	sys.exit()
+
 
 
 def main():
@@ -183,6 +171,6 @@ def main():
 	log_file = fileinput.input(args)
 
 	log_sorter(log_file,opts.first_regex,opts.second_regex)
-  
+	
 if __name__ == '__main__':
-  main()
+	main()
