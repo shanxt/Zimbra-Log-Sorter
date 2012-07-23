@@ -25,8 +25,9 @@ import fileinput
 import optparse
 import signal 
 
-
+#
 # The following is to ignore the 'IOError: [Errno 32] Broken pipe' error while piping with 'less'
+#
 signal.signal(signal.SIGPIPE, signal.SIG_DFL)
 def signal_handler(signal, frame):
 	print sys.argv[0] + ": User exited with 'Ctrl+c'"
