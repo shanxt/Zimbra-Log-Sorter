@@ -7,7 +7,8 @@
 #
 #	Jul 15, 2012
 #
-#	Email: echo "`echo CbegvnakIlnf | tr '[A-Za-z]' '[N-ZA-Mn-za-m]'`@gmail.com"
+#	Email1: echo "`echo CbegvnakIlnf | tr '[A-Za-z]' '[N-ZA-Mn-za-m]'`@gmail.com"
+#	Email2: echo "`echo funakg | tr '[A-Za-z]' '[N-ZA-Mn-za-m]'`@gmail.com"
 # ------------------------------------------------------------------------------
 #
 #	Being a qmail admin as well, I was sorely missing John Simpson's 'mtrack' 
